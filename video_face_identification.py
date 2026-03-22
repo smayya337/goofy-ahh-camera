@@ -21,7 +21,7 @@ framerate = 30 # set the frame rate of playback in frames per second (not exact)
 
 # enter the subjects' names as keys and their portrait file paths as values
 subjects = {
-    'self' : '/mnt/d/Pictures/Camera Roll/B7F58C12-56EA-49C7-811E-9496F44B455A_Photo.v1.png',
+    'subject name here' : '/mnt/d/Pictures/Camera Roll/B7F58C12-56EA-49C7-811E-9496F44B455A_Photo.v1.png',
 }
 
 # DO NOT MODIFY ANY CODE AFTER THIS COMMENT
