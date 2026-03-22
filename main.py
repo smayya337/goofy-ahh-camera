@@ -4,16 +4,18 @@ import queue
 import tempfile
 import threading
 import time
+from discord_webhook import DiscordWebhook
+from dotenv import load_dotenv
 from facial_detection import detect_face
 from facial_recognition import build_deepface, verify_face_not_in_excludes  # build_deepface called inside RecognitionWorker
 
-CAMERA_URL = "http://admin:admin@192.168.8.20/video/mjpg.cgi?profileid=3"
-EXCLUDES_PATH = "faces_to_ignore"
-EXPOSE_COOLDOWN_SEC = 1
+load_dotenv()
 
-
-def expose(frame: cv2.typing.MatLike) -> None:
-    print("EXPOSE: unknown face detected")
+def expose(frame: cv2.typing.MatLike, now: float) -> None:
+    frame_bytes = cv2.imencode(".jpg", frame)[1].tobytes()
+    webhook = DiscordWebhook(url=os.getenv("DISCORD_WEBHOOK_URL"), username="Goofy Ahh Camera", content="Look at this mf")
+    webhook.add_file(file=frame_bytes, filename=f"img-{str(int(now))}.jpg")
+    response = webhook.execute()
 
 
 class FrameGrabber(threading.Thread):
@@ -62,17 +64,17 @@ class RecognitionWorker(threading.Thread):
                 tmp_path = tmp.name
             try:
                 cv2.imwrite(tmp_path, frame)
-                if verify_face_not_in_excludes(tmp_path, EXCLUDES_PATH):
+                if verify_face_not_in_excludes(tmp_path, os.getenv("EXCLUDES_PATH", "faces_to_ignore")):
                     now = time.monotonic()
-                    if now - self._last_expose >= EXPOSE_COOLDOWN_SEC:
-                        expose(frame)
+                    if now - self._last_expose >= int(os.getenv("EXPOSE_COOLDOWN_SEC", 1)):
+                        expose(frame, now)
                         self._last_expose = now
             finally:
                 os.unlink(tmp_path)
 
 
 def main():
-    cap = cv2.VideoCapture(CAMERA_URL)
+    cap = cv2.VideoCapture(os.getenv("CAMERA_URL"))
 
     grabber = FrameGrabber(cap)
     recognizer = RecognitionWorker()

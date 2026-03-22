@@ -1,6 +1,8 @@
 deepface
+discord-webhook
 matplotlib
 opencv-python
+python-dotenv
 requests
 retina-face
 tensorflow[and-cuda]

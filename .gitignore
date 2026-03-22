@@ -1,2 +1,7 @@
 .venv
 faces_to_ignore/*
+__pycache__
+*.jpg
+*.jpeg
+*.png
+.env
