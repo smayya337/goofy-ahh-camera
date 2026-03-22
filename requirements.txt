@@ -1,3 +1,7 @@
+deepface
+matplotlib
 opencv-python
 requests
 retina-face
+tensorflow[and-cuda]
+tf-keras
