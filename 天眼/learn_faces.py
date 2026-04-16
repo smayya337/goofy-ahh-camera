@@ -7,7 +7,7 @@ OUTPUT_PICKLE = "face_encodings.pkl"
 # Subjects and paths: create a directory called "faces/" and put "faces/Display Name 1.jpg", "face/Display Name 2.png", ...
 subjects = {
     os.path.splitext(filename)[0]: os.path.join("faces", filename)
-    for filename in os.listdir(FACES_DIR)
+    for filename in os.listdir("faces")
 }
 
 known_face_encodings = []
