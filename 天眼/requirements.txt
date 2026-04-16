@@ -1,4 +1,4 @@
-# sudo apt-get install python3-setuptools
+setuptools<81
 face-recognition
 opencv-python-headless
 python-dotenv
