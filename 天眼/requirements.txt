@@ -1,0 +1,3 @@
+face-recognition
+opencv-python-headless
+python-dotenv
